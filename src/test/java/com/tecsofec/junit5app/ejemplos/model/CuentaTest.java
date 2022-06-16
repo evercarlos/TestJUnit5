@@ -29,4 +29,22 @@ class CuentaTest {
         assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO)<0); // comprando cuenta.getSaldo().compareTo(BigDecimal.ZERO), 0
         assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0); //true
     }
+
+    // test Driven Development
+
+    @Test
+    void testReferenciaCuenta() {
+        // instancias distintas por memoria, sale error: Para ello se implementa el método equals
+        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.458458"));
+        Cuenta cuenta2 = new Cuenta("Ever", new BigDecimal("1000.458458"));
+        // assertNotEquals(cuenta2, cuenta);
+        assertEquals(cuenta2, cuenta);
+    }
 }
+
+
+
+
+
+
+

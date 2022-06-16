@@ -31,4 +31,18 @@ public class Cuenta {
     public void setPersona(String persona) {
         this.persona = persona;
     }
+
+    // Agregado para comparar los objetos
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof  Cuenta)){ // obj == null ||
+            return  false;
+        }
+        Cuenta cuenta = (Cuenta) obj;
+        if(this.persona == null || this.saldo == null) {
+            return  false;
+        }
+        return this.persona.equals(cuenta.getPersona()) && this.saldo.equals(cuenta.getSaldo());
+    }
+
 }

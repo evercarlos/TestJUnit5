@@ -11,6 +11,7 @@ public class Cuenta {
 
     private String persona;
     private BigDecimal saldo;
+    private Banco banco;
 
 
     public Cuenta(String persona, BigDecimal saldo) {
@@ -24,6 +25,14 @@ public class Cuenta {
 
     public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
+    }
+
+    public Banco getBanco() {
+        return banco;
+    }
+
+    public void setBanco(Banco banco) {
+        this.banco = banco;
     }
 
     public String getPersona() {

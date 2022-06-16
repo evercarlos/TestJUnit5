@@ -1,5 +1,7 @@
 package com.tecsofec.junit5app.ejemplos.model;
 
+import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
+
 import java.math.BigDecimal;
 
 /**
@@ -33,8 +35,11 @@ public class Cuenta {
     }
 
     public void debito(BigDecimal monto) {
-      this.saldo=  this.saldo.subtract(monto);
-
+      BigDecimal nuevoSaldo=  this.saldo.subtract(monto);
+      if (nuevoSaldo.compareTo(BigDecimal.ZERO)< 0){
+          throw new DineroInsuficienteException("Dinero Insuficiente");
+      }
+      this.saldo = nuevoSaldo;
     }
 
     public void credito(BigDecimal monto){

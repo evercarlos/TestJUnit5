@@ -1,5 +1,6 @@
 package com.tecsofec.junit5app.ejemplos.model;
 
+import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -59,6 +60,17 @@ class CuentaTest {
         assertNotNull(c.getSaldo());
         assertEquals(1100, c.getSaldo().intValue());// ya qu es decimal se agrega intValue
         assertEquals("1100.12345", c.getSaldo().toPlainString());// string plano
+    }
+
+    @Test
+    void testDineroInsuficienteException(){
+        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.12345"));
+        Exception exception = assertThrows(DineroInsuficienteException.class, ()-> {
+            cuenta.debito(new BigDecimal(1500));
+        });
+       String actual = exception.getMessage();
+       String esperado = "Dinero Insuficiente";
+       assertEquals(esperado, actual);
     }
 }
 

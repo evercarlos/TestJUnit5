@@ -32,6 +32,16 @@ public class Cuenta {
         this.persona = persona;
     }
 
+    public void debito(BigDecimal monto) {
+      this.saldo=  this.saldo.subtract(monto);
+
+    }
+
+    public void credito(BigDecimal monto){
+       this.saldo= this.saldo.add(monto);
+    }
+
+
     // Agregado para comparar los objetos
     @Override
     public boolean equals(Object obj) {

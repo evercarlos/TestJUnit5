@@ -10,20 +10,34 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author EVER C.R
  */
+// el ciclo de vida es por método
+// agregado cuando se implementó before,after
+// @TestInstance(TestInstance.Lifecycle.PER_CLASS)// per clase BeforeAll, afterAll se quita el "static"
 class CuentaTest {
 
     Cuenta cuenta;
 
     /* second class*/
-    @BeforeEach // Que se ejecute antes de cada método
+    @BeforeEach // Se ejecute antes de cada método
     void initMetodoTest(){
-        this.cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567"));
+        this.cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
         System.out.println("iniciando el método");
     }
 
-    @AfterEach //
+    @AfterEach // Se ejecuta despúes de cada método
     void tearDown(){
         System.out.println("Finalizando el método de prueba.");
+    }
+
+    @BeforeAll
+    static void beforeAll() {// si quito static sale error porqe la instancia todavía no fue creado
+        // se puede usar para conextar algún recurso
+        System.out.println("::::::Unicializando el test::::::");
+    }
+
+    @AfterAll
+    static void afterAll(){
+        System.out.println("::::::::Finalizando el test::::::");
     }
 
     // POR CADA METODO SE CREA AUTOMATICAMENTE UNA INSTANCIA
@@ -44,7 +58,7 @@ class CuentaTest {
     @Test
     @DisplayName("Probando el saldo de la cuenta corriente, que no sea null, mayor que cero, valor esperado")
     void testSaldoCuenta() {
-        cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
+        // cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
         assertNotNull(cuenta.getSaldo());
         assertEquals(1000.34544, cuenta.getSaldo().doubleValue());
         // compareTo: -1: saldo menor que cero 0: mayor que el saldo

@@ -1,6 +1,6 @@
 ************ JUNIT5******************
 # ANOTACIONES  CICLO DE VIDA
-- @BeforeAll: Se ejecuta una sola vez al inicio
-- @BeforeEach: Varias veces@Before
-- @AfterEach: Varias veces
+- @BeforeAll: Se ejecuta una sola vez al inicio, antes qu se crea la instancia
+- @BeforeEach: se ejcuta antes por cada método
+- @AfterEach: se ejcuta despues por cada método
 - @AfterAll: Se ejecuta una sola vez al final

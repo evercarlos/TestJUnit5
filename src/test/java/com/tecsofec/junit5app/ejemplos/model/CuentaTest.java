@@ -96,22 +96,35 @@ class CuentaTest {
 
         banco.setNombre("BCP");
         banco.transferir(cuenta2, cuenta1, new BigDecimal(500));
-        assertEquals("1000.8989", cuenta2.getSaldo().toPlainString());
-        assertEquals("3000", cuenta1.getSaldo().toPlainString());
+        // para agrupar asserts: al haver un error tambien muestra los demas errores
+        assertAll(
+                () ->  assertEquals("1000.8989", cuenta2.getSaldo().toPlainString()),// Sin llaves es más limpio
+                () -> {
+                    assertEquals("3000", cuenta1.getSaldo().toPlainString());
+                },
+                () -> {
+                    assertEquals(2, banco.getCuentas().size());
+                },
+                () -> {
+                    assertEquals("BCP", cuenta1.getBanco().getNombre());
+                },
+                () -> {
+                    assertEquals("Ever", banco.getCuentas().stream()
+                            .filter(c -> c.getPersona().equals("Ever"))
+                            .findFirst()
+                            .get().getPersona());
+                },
+                () -> {
+                    assertTrue(banco.getCuentas().stream()
+                            .anyMatch(c->c.getPersona().equals("Ever")));
+                }
+        );
 
-        assertEquals(2, banco.getCuentas().size());
-        assertEquals("BCP", cuenta1.getBanco().getNombre());
 
-        assertEquals("Ever", banco.getCuentas().stream()
-                .filter(c -> c.getPersona().equals("Ever"))
-                .findFirst()
-                .get().getPersona());
 
         /*assertTrue(banco.getCuentas().stream()
                 .filter(c -> c.getPersona().equals("Ever"))
                 .findFirst().isPresent());*/
-        assertTrue(banco.getCuentas().stream()
-                .anyMatch(c->c.getPersona().equals("´´´889")));
     }
 }
 

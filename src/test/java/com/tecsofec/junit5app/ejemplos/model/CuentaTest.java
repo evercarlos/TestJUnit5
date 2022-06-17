@@ -102,6 +102,16 @@ class CuentaTest {
         assertEquals(2, banco.getCuentas().size());
         assertEquals("BCP", cuenta1.getBanco().getNombre());
 
+        assertEquals("Ever", banco.getCuentas().stream()
+                .filter(c -> c.getPersona().equals("Ever"))
+                .findFirst()
+                .get().getPersona());
+
+        /*assertTrue(banco.getCuentas().stream()
+                .filter(c -> c.getPersona().equals("Ever"))
+                .findFirst().isPresent());*/
+        assertTrue(banco.getCuentas().stream()
+                .anyMatch(c->c.getPersona().equals("´´´889")));
     }
 }
 

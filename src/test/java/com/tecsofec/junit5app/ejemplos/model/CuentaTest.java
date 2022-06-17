@@ -1,6 +1,8 @@
 package com.tecsofec.junit5app.ejemplos.model;
 
 import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CuentaTest {
 
     @Test
+    @DisplayName("Probando nombre de la cuenta")// al ejecutar en el result remplaza al testNombreCuenta()
     void testNombreCuenta(){
         Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567")); // "" por tema de precisión
         // cuenta.setPersona("Ever");
@@ -26,6 +29,7 @@ class CuentaTest {
     }
 
     @Test
+    @DisplayName("Probando el saldo de la cuenta corriente, que no sea null, mayor que cero, valor esperado")
     void testSaldoCuenta() {
         Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
         assertNotNull(cuenta.getSaldo());
@@ -38,6 +42,7 @@ class CuentaTest {
     // test Driven Development
 
     @Test
+    @DisplayName("Testedando referencias que sean iguales con el método equals")
     void testReferenciaCuenta() {
         // instancias distintas por memoria, sale error: Para ello se implementa el método equals
         Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.458458"));
@@ -88,7 +93,10 @@ class CuentaTest {
     }
 
     @Test
+    //@Disabled// para qu pase por alto el error(la prueba) // Se muestra en el reporte
+    @DisplayName("Probando relaciones entre las cuentas y el banco con assertAll.")
     void testRelacionBancoCuentas() {
+        //fail(); // Aseguramos qu falle el método
         Cuenta cuenta1 = new Cuenta("Ever", new BigDecimal("2500"));
         Cuenta cuenta2 = new Cuenta("Maria", new BigDecimal("1500.8989"));
 

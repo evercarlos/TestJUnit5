@@ -1,9 +1,7 @@
 package com.tecsofec.junit5app.ejemplos.model;
 
 import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
 
@@ -14,10 +12,25 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CuentaTest {
 
+    Cuenta cuenta;
+
+    /* second class*/
+    @BeforeEach // Que se ejecute antes de cada método
+    void initMetodoTest(){
+        this.cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567"));
+        System.out.println("iniciando el método");
+    }
+
+    @AfterEach //
+    void tearDown(){
+        System.out.println("Finalizando el método de prueba.");
+    }
+
+    // POR CADA METODO SE CREA AUTOMATICAMENTE UNA INSTANCIA
     @Test
     @DisplayName("Probando nombre de la cuenta")// al ejecutar en el result remplaza al testNombreCuenta()
     void testNombreCuenta(){
-        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567")); // "" por tema de precisión
+        // Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567")); // "" por tema de precisión
         // cuenta.setPersona("Ever");
         String esperando = "Ever"; // expected
         String actual = cuenta.getPersona();
@@ -31,7 +44,7 @@ class CuentaTest {
     @Test
     @DisplayName("Probando el saldo de la cuenta corriente, que no sea null, mayor que cero, valor esperado")
     void testSaldoCuenta() {
-        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
+        cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
         assertNotNull(cuenta.getSaldo());
         assertEquals(1000.34544, cuenta.getSaldo().doubleValue());
         // compareTo: -1: saldo menor que cero 0: mayor que el saldo
@@ -45,7 +58,7 @@ class CuentaTest {
     @DisplayName("Testedando referencias que sean iguales con el método equals")
     void testReferenciaCuenta() {
         // instancias distintas por memoria, sale error: Para ello se implementa el método equals
-        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.458458"));
+        cuenta = new Cuenta("Ever", new BigDecimal("1000.458458"));
         Cuenta cuenta2 = new Cuenta("Ever", new BigDecimal("1000.458458"));
         // assertNotEquals(cuenta2, cuenta);
         assertEquals(cuenta2, cuenta);
@@ -71,7 +84,7 @@ class CuentaTest {
 
     @Test
     void testDineroInsuficienteException(){
-        Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.12345"));
+        cuenta = new Cuenta("Ever", new BigDecimal("1000.12345"));
         Exception exception = assertThrows(DineroInsuficienteException.class, ()-> {
             cuenta.debito(new BigDecimal(1500));
         });

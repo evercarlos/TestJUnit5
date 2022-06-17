@@ -4,3 +4,7 @@
 - @BeforeEach: se ejcuta antes por cada método
 - @AfterEach: se ejcuta despues por cada método
 - @AfterAll: Se ejecuta una sola vez al final
+# Condicionales
+- @EnabledOnOs
+- @EnabledOnJre
+- @EnabledIfSystemProperty

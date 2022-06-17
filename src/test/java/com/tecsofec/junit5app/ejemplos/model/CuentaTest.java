@@ -2,8 +2,10 @@ package com.tecsofec.junit5app.ejemplos.model;
 
 import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.*;
 
 import java.math.BigDecimal;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -165,6 +167,61 @@ class CuentaTest {
         /*assertTrue(banco.getCuentas().stream()
                 .filter(c -> c.getPersona().equals("Ever"))
                 .findFirst().isPresent());*/
+    }
+
+    // Si no halla el SO le desabilita, en este caso solo se ejecuta en linux, windows
+    @Test
+    @EnabledOnOs({OS.LINUX, OS.WINDOWS})
+    void testSoloLinuxMac() {
+
+    }
+
+    @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void testNoWindows() {
+
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_8)// Sólo funciona en JDK8
+    void soloJdk8(){
+
+    }
+
+    @Test
+    @EnabledOnJre(JRE.JAVA_15)
+    void soloJdk15(){
+
+    }
+
+    @Test
+    @DisabledOnJre(JRE.JAVA_15)
+    void testNoJdk15(){
+
+    }
+
+    @Test
+    void imprimirSystemProperties() {
+        Properties properties = System.getProperties();
+        properties.forEach((k, v)-> System.out.println(k+" : "+v));
+    }
+
+    @Test
+    @EnabledIfSystemProperty(named = "java.version", matches = ".*15.*")
+    void testJavaVersion(){
+
+    }
+
+    @Test
+    @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+    void testSolo64(){
+
+    }
+
+    @Test
+    @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+    void testNo64(){
+
     }
 }
 

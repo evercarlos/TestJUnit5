@@ -18,9 +18,11 @@ class CuentaTest {
         // cuenta.setPersona("Ever");
         String esperando = "Ever"; // expected
         String actual = cuenta.getPersona();
-        assertNotNull(actual);
-        assertEquals(esperando, actual); // asertar si son iguales con el esperado
-        assertTrue(actual.equals("Ever")); // asertar si es verdadero
+        //assertNotNull(actual);
+        //assertNotNull(actual, "La cuenta no puede ser nula");
+        assertNotNull(actual, () ->"La cuenta no puede ser nula"); // ()-> para evitar qu se crea el objeto(String actual) cuando no sale error
+        assertEquals(esperando, actual, ()->"El nombre de la cuenta no es el que se esperaba: Se esperaba "+esperando+" Sin embargo fue "+actual); // asertar si son iguales con el esperado
+        assertTrue(actual.equals("Ever"), ()->"Nombre de la cuenta esperada debe ser a la esperad"); // asertar si es verdadero
     }
 
     @Test
@@ -98,12 +100,15 @@ class CuentaTest {
         banco.transferir(cuenta2, cuenta1, new BigDecimal(500));
         // para agrupar asserts: al haver un error tambien muestra los demas errores
         assertAll(
-                () ->  assertEquals("1000.8989", cuenta2.getSaldo().toPlainString()),// Sin llaves es más limpio
+                () ->  assertEquals("1000.8989", cuenta2.getSaldo().toPlainString(),
+                        ()->"El valor del saldo de la cuenta2 no es el esperado"),// Sin llaves es más limpio
                 () -> {
-                    assertEquals("3000", cuenta1.getSaldo().toPlainString());
+                    assertEquals("3000", cuenta1.getSaldo().toPlainString(),
+                            ()->"El valor del saldo de la cuenta1 no es el esperado");
                 },
                 () -> {
-                    assertEquals(2, banco.getCuentas().size());
+                    assertEquals(2, banco.getCuentas().size(),
+                            ()->"el banco no tiene las cuentas esperadas");
                 },
                 () -> {
                     assertEquals("BCP", cuenta1.getBanco().getNombre());

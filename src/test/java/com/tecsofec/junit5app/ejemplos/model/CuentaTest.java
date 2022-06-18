@@ -4,9 +4,14 @@ import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -346,6 +351,48 @@ class CuentaTest {
         assertNotNull(c.getSaldo());
         assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
     }
+
+    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+    // 1, 2,(son los ididices)
+    @CsvSource({"1,100", "2,200", "3,300", "4,500", "5,500", "6,1000.11"})// tambien puede ser Strings
+    void testDebitoCuentaCsvSource(String index, String monto) {
+        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+        System.out.println(index+" -> "+monto);
+        c.debito(new BigDecimal(monto));
+
+        assertNotNull(c.getSaldo());
+        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+    @CsvFileSource(resources = "/data.csv")
+    void testDebitoCuentaCsvFileSource(String monto) {
+        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+        c.debito(new BigDecimal(monto));
+
+        assertNotNull(c.getSaldo());
+        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+    @MethodSource("montoList")
+    void testDebitoCuentaMethodSource(String monto) {
+        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+        c.debito(new BigDecimal(monto));
+
+        assertNotNull(c.getSaldo());
+        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+    }
+
+    static List<String> montoList(){
+        return Arrays.asList("100", "200", "300", "500", "700", "1000");
+
+    }
+
+
 
 }
 

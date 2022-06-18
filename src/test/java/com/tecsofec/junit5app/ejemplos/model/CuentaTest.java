@@ -180,6 +180,8 @@ class CuentaTest {
 
     // Si no halla el SO le desabilita, en este caso solo se ejecuta en linux, windows
     // test anidados
+    @Tag("SistemaOperativo")
+    //@Tag("SistemaOperativo") Se puede ejecutar varios
     @Nested // test anidados con class
     @DisplayName("Probando atributos de SO")
     class SistemaOperativo {
@@ -341,6 +343,7 @@ class CuentaTest {
     }
 
     // no se pone en nested porque trabaj con un metodo static
+    @Tag("param")
     @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
     @MethodSource("montoList")
     void testDebitoCuentaMethodSource(String monto) {
@@ -353,6 +356,7 @@ class CuentaTest {
     }
 
      @Nested
+    @Tag("param")// aplica a cada unos de los metodos, tambien se puede agregar uno por uno ()
     class PruebasParametrizadastest{
 
          @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")

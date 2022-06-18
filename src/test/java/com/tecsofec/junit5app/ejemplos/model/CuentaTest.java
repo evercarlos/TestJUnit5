@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 /**
  * @author EVER C.R
@@ -269,7 +270,32 @@ class CuentaTest {
 
     }
 
+    // assumptions: suposiciones
+    //Ejmplos: Si un servidor esta arriba
+    @Test
+    @DisplayName("Test saldo cuenta Dev")
+    void testSaldoCuentaDev() {
+        boolean esDev = "dev".equals(System.getProperty("ENV"));// env: configuracion del arranque
+        assumeTrue(esDev);// si no se cumple todo  después del assume no se ejecuta(codigo del método)
+        assertNotNull(cuenta.getSaldo());
+        assertEquals(1000.34544, cuenta.getSaldo().doubleValue());
+        // compareTo: -1: saldo menor que cero 0: mayor que el saldo
+        assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO)<0); // comprando cuenta.getSaldo().compareTo(BigDecimal.ZERO), 0
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0); //true
+    }
 
+    @Test
+    @DisplayName("Test saldo cuenta Dev 2")
+    void testSaldoCuentaDev2() {
+        boolean esDev = "dev".equals(System.getProperty("ENV"));// env: configuracion del arranque
+        assumingThat(esDev, () ->{// si se cumple pasa por aqui, sino pasa defrente
+            assertNotNull(cuenta.getSaldo());
+            assertEquals(1000.345446, cuenta.getSaldo().doubleValue());
+            // compareTo: -1: saldo menor que cero 0: mayor que el saldo
+        });
+        assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO)<0); // comprando cuenta.getSaldo().compareTo(BigDecimal.ZERO), 0
+        assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0); //true
+    }
 }
 
 

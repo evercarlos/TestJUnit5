@@ -8,3 +8,5 @@
 - @EnabledOnOs
 - @EnabledOnJre
 - @EnabledIfSystemProperty
+- assumeTrue(esDev);// si no se cumple todo  después del assume no se ejecuta(codigo del método)
+- assumingThat(esDev, () ->{

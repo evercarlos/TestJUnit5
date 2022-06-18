@@ -7,6 +7,21 @@
     <groupId>com.tecsofec</groupId>
     <artifactId>junit5_app</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <!--Para hacer pruebaas remotamente-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <!--Al quitarlo ejecuta todas las pruebas-->
+                <!--<configuration>
+                    <groups>cuenta</groups>
+                    <groups>SistemaOperativo</groups>
+                </configuration>-->
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -15,6 +30,8 @@
             <version>5.6.3</version>
         </dependency>
     </dependencies>
+    
+    
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source><!--15, 8-->

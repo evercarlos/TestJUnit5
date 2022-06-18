@@ -19,3 +19,4 @@
 - Tag: Para etiquetas, sirve para dar orden en ejecución. despues del martillo
 - Inyección Dependencias: TestInfo, TestReporter(guarda en el log de unit)
 - timeout: Para tiempo
+- surefile: Para aceder remotamente y ejecutar las pruebas por consola

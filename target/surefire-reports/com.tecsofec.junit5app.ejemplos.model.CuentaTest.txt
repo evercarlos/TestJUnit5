@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: com.tecsofec.junit5app.ejemplos.model.CuentaTest
+-------------------------------------------------------------------------------
+Tests run: 67, Failures: 3, Errors: 0, Skipped: 7, Time elapsed: 7.609 s <<< FAILURE! - in com.tecsofec.junit5app.ejemplos.model.CuentaTest
+testTimeoutAssertions  Time elapsed: 5.015 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: execution exceeded timeout of 5000 ms by 3 ms
+	at com.tecsofec.junit5app.ejemplos.model.CuentaTest$EjemploTimeOutTest.testTimeoutAssertions(CuentaTest.java:473)
+
+testDebitoCuentaCsvSource2{String, String, String, String}[1]  Time elapsed: 0.011 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <Ever> but was: <Juan>
+	at com.tecsofec.junit5app.ejemplos.model.CuentaTest$PruebasParametrizadastest.testDebitoCuentaCsvSource2(CuentaTest.java:432)
+
+testDebitoCuentaCsvFileSource2{String, String, String, String}[1]  Time elapsed: 0.002 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <Ever> but was: <pedro>
+	at com.tecsofec.junit5app.ejemplos.model.CuentaTest$PruebasParametrizadastest.testDebitoCuentaCsvFileSource2(CuentaTest.java:449)
+

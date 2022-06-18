@@ -340,42 +340,7 @@ class CuentaTest {
         assertEquals("900.12345", c.getSaldo().toPlainString());// string plano
     }
 
-
-    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
-    @ValueSource(strings = {"100", "200", "300", "500", "700", "1000"})// tambien puede ser Strings
-    void testDebitoCuenta1(String monto) {//inyectando
-        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
-
-        c.debito(new BigDecimal(monto));
-
-        assertNotNull(c.getSaldo());
-        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
-    }
-
-    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
-    // 1, 2,(son los ididices)
-    @CsvSource({"1,100", "2,200", "3,300", "4,500", "5,500", "6,1000.11"})// tambien puede ser Strings
-    void testDebitoCuentaCsvSource(String index, String monto) {
-        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
-
-        System.out.println(index+" -> "+monto);
-        c.debito(new BigDecimal(monto));
-
-        assertNotNull(c.getSaldo());
-        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
-    }
-
-    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
-    @CsvFileSource(resources = "/data.csv")
-    void testDebitoCuentaCsvFileSource(String monto) {
-        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
-
-        c.debito(new BigDecimal(monto));
-
-        assertNotNull(c.getSaldo());
-        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
-    }
-
+    // no se pone en nested porque trabaj con un metodo static
     @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
     @MethodSource("montoList")
     void testDebitoCuentaMethodSource(String monto) {
@@ -387,10 +352,87 @@ class CuentaTest {
         assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
     }
 
+     @Nested
+    class PruebasParametrizadastest{
+
+         @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+         @ValueSource(strings = {"100", "200", "300", "500", "700", "1000"})// tambien puede ser Strings
+         void testDebitoCuenta1(String monto) {//inyectando
+             Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+             c.debito(new BigDecimal(monto));
+
+             assertNotNull(c.getSaldo());
+             assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+         }
+
+         @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+         // 1, 2,(son los ididices)
+         @CsvSource({"1,100", "2,200", "3,300", "4,500", "5,500", "6,1000.11"})// tambien puede ser Strings
+         void testDebitoCuentaCsvSource(String index, String monto) {
+             Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+             System.out.println(index+" -> "+monto);
+             c.debito(new BigDecimal(monto));
+
+             assertNotNull(c.getSaldo());
+             assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+         }
+
+         @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+         @CsvFileSource(resources = "/data.csv")
+         void testDebitoCuentaCsvFileSource(String monto) {
+             Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+             c.debito(new BigDecimal(monto));
+
+             assertNotNull(c.getSaldo());
+             assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+         }
+         @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+         // 1, 2,(son los ididices)
+         @CsvSource({"200,100,Ever,Juan", "250,200,Mari,Mari", "310,300,Pepe,Pepe","510,500,Maria,Maria", "750,500,Juana,Juana", "1001.11,1000.11,Lucas,Lucas"})
+         void testDebitoCuentaCsvSource2(String saldo, String monto, String esperado, String actual) {
+             Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+             System.out.println(saldo +" -> "+monto);
+
+             c.setSaldo(new BigDecimal(saldo));
+             c.setPersona(actual);
+             c.debito(new BigDecimal(monto));
+
+             assertNotNull(c.getSaldo());
+             assertNotNull(c.getPersona());
+
+             assertEquals(esperado,actual);
+
+             assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+         }
+
+         @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+         @CsvFileSource(resources = "/data2.csv")
+         void testDebitoCuentaCsvFileSource2(String saldo, String monto, String esperado, String actual) {
+             Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+             c.setSaldo(new BigDecimal(saldo));
+             c.setPersona(actual);
+             c.debito(new BigDecimal(monto));
+
+             assertNotNull(c.getSaldo());
+             assertNotNull(c.getPersona());
+
+             assertEquals(esperado,actual);
+
+             assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
+         }
+
+    }
     static List<String> montoList(){
         return Arrays.asList("100", "200", "300", "500", "700", "1000");
 
     }
+
+
 
 
 

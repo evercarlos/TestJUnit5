@@ -12,3 +12,5 @@
 - assumingThat(esDev, () ->{
 - @Nested: Para test anidados con class:: Cada test(nodo) tiene su hijo
 - Repetir Test: @RepeatedTest(5)
+-ParameterizedTest: Tiene cierta similitud que repeatTest, con diferencia qu se pasa datos input
+- con string el bigDecimal es más preciso

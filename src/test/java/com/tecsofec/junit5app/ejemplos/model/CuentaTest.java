@@ -3,6 +3,8 @@ package com.tecsofec.junit5app.ejemplos.model;
 import com.tecsofec.junit5app.ejemplos.exception.DineroInsuficienteException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -331,6 +333,18 @@ class CuentaTest {
         assertNotNull(c.getSaldo());
         assertEquals(900, c.getSaldo().intValue());// ya qu es decimal se agrega intValue
         assertEquals("900.12345", c.getSaldo().toPlainString());// string plano
+    }
+
+
+    @ParameterizedTest(name = "Numero {index} ejecutando con valor {0} - {argumentsWithNames}")
+    @ValueSource(strings = {"100", "200", "300", "500", "700", "1000"})// tambien puede ser Strings
+    void testDebitoCuenta1(String monto) {//inyectando
+        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+
+        c.debito(new BigDecimal(monto));
+
+        assertNotNull(c.getSaldo());
+        assertTrue(c.getSaldo().compareTo(BigDecimal.ZERO)>0);
     }
 
 }

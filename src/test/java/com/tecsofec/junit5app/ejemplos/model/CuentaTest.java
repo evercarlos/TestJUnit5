@@ -28,11 +28,22 @@ class CuentaTest {
 
     Cuenta cuenta;
 
+    private TestInfo testInfo;
+    private TestReporter testReporter;
+
     /* second class*/
     @BeforeEach // Se ejecute antes de cada método
-    void initMetodoTest(){
+    void initMetodoTest(TestInfo testInfo, TestReporter testReporter){
         this.cuenta = new Cuenta("Ever", new BigDecimal("1000.34544"));
+
+        this.testInfo = testInfo;
+        this.testReporter = testReporter;
+
         System.out.println("iniciando el método");
+        System.out.println("Ejecutando: "+testInfo.getDisplayName()+" "+testInfo.getTestMethod().orElse(null).getName()
+                +"con las etiquetas "+testInfo.getTags());
+        testReporter.publishEntry("Ejecutando: "+testInfo.getDisplayName()+" "+testInfo.getTestMethod().orElse(null).getName()
+                +"con las etiquetas "+testInfo.getTags());
     }
 
     @AfterEach // Se ejecuta despúes de cada método
@@ -52,9 +63,17 @@ class CuentaTest {
     }
 
     // POR CADA METODO SE CREA AUTOMATICAMENTE UNA INSTANCIA
+    @Tag("cuenta")
     @Test
     @DisplayName("Probando nombre de la cuenta")// al ejecutar en el result remplaza al testNombreCuenta()
     void testNombreCuenta(){
+        System.out.println(testInfo.getTags());
+        testReporter.publishEntry(testInfo.getTags().toString());
+        if(testInfo.getTags().contains("cuenta")){
+            System.out.println("hacer algo con la etiqueta cuenta");
+        }
+        /*System.out.println("Ejecutando: "+testInfo.getDisplayName()+" "+testInfo.getTestMethod().orElse(null).getName()
+        +"con las etiquetas "+testInfo.getTags());*/
         // Cuenta cuenta = new Cuenta("Ever", new BigDecimal("1000.32467567")); // "" por tema de precisión
         // cuenta.setPersona("Ever");
         String esperando = "Ever"; // expected
@@ -431,6 +450,12 @@ class CuentaTest {
          }
 
     }
+
+
+
+
+
+
     static List<String> montoList(){
         return Arrays.asList("100", "200", "300", "500", "700", "1000");
 

@@ -17,3 +17,4 @@
 - CsvSource: Se pasa indices por casa valor
 - CuentaMethodSource: jalando un metodo
 - Tag: Para etiquetas, sirve para dar orden en ejecución. despues del martillo
+- Inyección Dependencias: TestInfo, TestReporter(guarda en el log de unit)

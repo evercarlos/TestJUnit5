@@ -219,10 +219,26 @@ class CuentaTest {
     }
 
     @Test
-    @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+    @EnabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
     void testNo64(){
 
     }
+
+    @Test
+    @EnabledIfSystemProperty(named = "user.name", matches = "1227901")
+    void testUsername(){
+
+    }
+
+    // este se crea al dar clic despues del martillo
+    @Test
+    @EnabledIfSystemProperty(named = "ENV", matches = "dev")
+    void testDev(){
+
+    }
+
+
+
 }
 
 

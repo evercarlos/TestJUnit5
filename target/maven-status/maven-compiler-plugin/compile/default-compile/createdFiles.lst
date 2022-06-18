@@ -1,0 +1,3 @@
+com\tecsofec\junit5app\ejemplos\model\Banco.class
+com\tecsofec\junit5app\ejemplos\exception\DineroInsuficienteException.class
+com\tecsofec\junit5app\ejemplos\model\Cuenta.class

@@ -172,102 +172,122 @@ class CuentaTest {
     }
 
     // Si no halla el SO le desabilita, en este caso solo se ejecuta en linux, windows
-    @Test
-    @EnabledOnOs({OS.LINUX, OS.WINDOWS})
-    void testSoloLinuxMac() {
+    // test anidados
+    @Nested // test anidados con class
+    @DisplayName("Probando atributos de SO")
+    class SistemaOperativo {
+        @Test
+        @EnabledOnOs({OS.LINUX, OS.WINDOWS})
+        void testSoloLinuxMac() {
 
+        }
+
+        @Test
+        @EnabledOnOs(OS.WINDOWS)
+        void testWindows() {
+
+        }
+
+        @Test
+        @DisabledOnOs(OS.WINDOWS)
+        void testNoWindows() {
+
+        }
     }
 
-    @Test
-    @DisabledOnOs(OS.WINDOWS)
-    void testNoWindows() {
+    @Nested
+    class JavaVersionTest{
+        @Test
+        @EnabledOnJre(JRE.JAVA_8)// Sólo funciona en JDK8
+        void soloJdk8(){
 
+        }
+
+        @Test
+        @EnabledOnJre(JRE.JAVA_15)
+        void soloJdk15(){
+
+        }
+
+        @Test
+        @DisabledOnJre(JRE.JAVA_15)
+        void testNoJdk15(){
+
+        }
     }
 
-    @Test
-    @EnabledOnJre(JRE.JAVA_8)// Sólo funciona en JDK8
-    void soloJdk8(){
+    @Nested
+    class SistemPropertiesTest {
 
+        @Test
+        void imprimirSystemProperties() {
+            Properties properties = System.getProperties();
+            properties.forEach((k, v)-> System.out.println(k+" : "+v));
+        }
+
+        @Test
+        @EnabledIfSystemProperty(named = "java.version", matches = ".*15.*")
+        void testJavaVersion(){
+
+        }
+
+        @Test
+        @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+        void testSolo64(){
+
+        }
+
+        @Test
+        @EnabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
+        void testNo64(){
+
+        }
+
+        @Test
+        @EnabledIfSystemProperty(named = "user.name", matches = "1227901")
+        void testUsername(){
+
+        }
+
+        // este se crea al dar clic despues del martillo
+        @Test
+        @EnabledIfSystemProperty(named = "ENV", matches = "dev")
+        void testDev(){
+
+        }
     }
 
-    @Test
-    @EnabledOnJre(JRE.JAVA_15)
-    void soloJdk15(){
+    class VariableAmbienteTest{
+        // recorremos variable de enviante del SO
+        @Test
+        void imprimirVariableAmbiente(){
+            Map<String, String> getenv = System.getenv();
+            getenv.forEach((k,v) -> System.out.println(k+" ="+v));
+        }
 
-    }
+        @Test
+        @EnabledIfEnvironmentVariable(named = "JAVA_HOME", matches = ".*jdk1.8.0_202.*")
+        void testJavaHome() {
 
-    @Test
-    @DisabledOnJre(JRE.JAVA_15)
-    void testNoJdk15(){
+        }
 
-    }
+        @Test
+        @EnabledIfEnvironmentVariable(named = "NUMBER_OF_PROCESSORS", matches = "12")
+        void testProcesadores(){
 
-    @Test
-    void imprimirSystemProperties() {
-        Properties properties = System.getProperties();
-        properties.forEach((k, v)-> System.out.println(k+" : "+v));
-    }
+        }
 
-    @Test
-    @EnabledIfSystemProperty(named = "java.version", matches = ".*15.*")
-    void testJavaVersion(){
+        @Test
+        @EnabledIfEnvironmentVariable(named = "ENVIRONMENT", matches = "dev")
+        void testEnv(){
 
-    }
+        }
 
-    @Test
-    @DisabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
-    void testSolo64(){
+        @Test
+        @DisabledIfEnvironmentVariable(named = "ENVIRONMENT", matches = "prod")
+        void testEnvProdDisabled(){
 
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "os.arch", matches = ".*32.*")
-    void testNo64(){
-
-    }
-
-    @Test
-    @EnabledIfSystemProperty(named = "user.name", matches = "1227901")
-    void testUsername(){
-
-    }
-
-    // este se crea al dar clic despues del martillo
-    @Test
-    @EnabledIfSystemProperty(named = "ENV", matches = "dev")
-    void testDev(){
-
-    }
-
-    // recorremos variable de enviante del SO
-    @Test
-    void imprimirVariableAmbiente(){
-        Map<String, String> getenv = System.getenv();
-        getenv.forEach((k,v) -> System.out.println(k+" ="+v));
-    }
-
-    @Test
-    @EnabledIfEnvironmentVariable(named = "JAVA_HOME", matches = ".*jdk1.8.0_202.*")
-    void testJavaHome() {
-
-    }
-
-    @Test
-    @EnabledIfEnvironmentVariable(named = "NUMBER_OF_PROCESSORS", matches = "12")
-    void testProcesadores(){
-
-    }
-
-    @Test
-    @EnabledIfEnvironmentVariable(named = "ENVIRONMENT", matches = "dev")
-    void testEnv(){
-
-    }
-
-    @Test
-    @DisabledIfEnvironmentVariable(named = "ENVIRONMENT", matches = "prod")
-    void testEnvProdDisabled(){
-
+        }
     }
 
     // assumptions: suposiciones
@@ -290,12 +310,29 @@ class CuentaTest {
         boolean esDev = "dev".equals(System.getProperty("ENV"));// env: configuracion del arranque
         assumingThat(esDev, () ->{// si se cumple pasa por aqui, sino pasa defrente
             assertNotNull(cuenta.getSaldo());
-            assertEquals(1000.345446, cuenta.getSaldo().doubleValue());
+            assertEquals(1000.34544, cuenta.getSaldo().doubleValue());
             // compareTo: -1: saldo menor que cero 0: mayor que el saldo
         });
         assertFalse(cuenta.getSaldo().compareTo(BigDecimal.ZERO)<0); // comprando cuenta.getSaldo().compareTo(BigDecimal.ZERO), 0
         assertTrue(cuenta.getSaldo().compareTo(BigDecimal.ZERO)>0); //true
     }
+
+
+    // @RepeatedTest(5)// repite 5 veces
+    @DisplayName("Probando Debito Cuenta Repetir!")
+    @RepeatedTest(value = 5, name = "{displayName} - Repetir número {currentRepetition} de {totalRepetitions}")
+    // tambien podemos inyectar
+    void testDebitoCuentaRepetir(RepetitionInfo info) {
+        if(info.getCurrentRepetition()==3){
+            System.out.println("Estamos en la repetición "+info.getCurrentRepetition());
+        }
+        Cuenta c = new Cuenta("Ever", new BigDecimal("1000.12345"));
+        c.debito(new BigDecimal(100));
+        assertNotNull(c.getSaldo());
+        assertEquals(900, c.getSaldo().intValue());// ya qu es decimal se agrega intValue
+        assertEquals("900.12345", c.getSaldo().toPlainString());// string plano
+    }
+
 }
 
 

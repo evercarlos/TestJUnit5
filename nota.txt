@@ -10,3 +10,5 @@
 - @EnabledIfSystemProperty
 - assumeTrue(esDev);// si no se cumple todo  después del assume no se ejecuta(codigo del método)
 - assumingThat(esDev, () ->{
+- @Nested: Para test anidados con class:: Cada test(nodo) tiene su hijo
+- Repetir Test: @RepeatedTest(5)
